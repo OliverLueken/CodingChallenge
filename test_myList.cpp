@@ -86,3 +86,47 @@ TEST_CASE("advance"){
 
     myList::delete_list(head);
 }
+
+
+TEST_CASE("reverse list"){
+    SECTION("Reverse list with one element"){
+        auto head = myList::make_list(1);
+        head = myList::reverse_list(head);
+        REQUIRE(head->value == 1 );
+        REQUIRE(head->next  == nullptr );
+        myList::delete_list(head);
+        REQUIRE(head == nullptr );
+    }
+
+    SECTION("Reverse list with two elements"){
+        auto head = myList::make_list(1, 2);
+        head = myList::reverse_list(head);
+
+        auto currentNodePtr = head;
+        REQUIRE(currentNodePtr->value == 2 );
+        REQUIRE(currentNodePtr->next  != nullptr );
+
+        currentNodePtr = currentNodePtr->next;
+        REQUIRE(currentNodePtr->value == 1 );
+        REQUIRE(currentNodePtr->next  == nullptr );
+
+        myList::delete_list(head);
+        REQUIRE(head == nullptr );
+    }
+
+    SECTION("Reverse list with a lot of elements"){
+        auto head = myList::make_list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+        head = myList::reverse_list(head);
+
+        auto currentNodePtr = head;
+        int expectedValue = 16;
+        while(currentNodePtr != nullptr){
+            REQUIRE(currentNodePtr->value == expectedValue );
+            currentNodePtr = currentNodePtr->next;
+            --expectedValue;
+        }
+
+        myList::delete_list(head);
+        REQUIRE(head == nullptr );
+    }
+}
