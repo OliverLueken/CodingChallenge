@@ -19,13 +19,14 @@ namespace myList{
     /*
     Exptects the head of a list and destroys every node in that list
     */
-    void delete_list(Node* head){
+    void delete_list(Node*& head){
         auto currentNodePtr = head;
         while(currentNodePtr != nullptr){
             auto nextNodePtr = currentNodePtr->next;
             delete currentNodePtr;
             currentNodePtr = nextNodePtr;
         }
+        head = nullptr;
     }
 }
 
