@@ -56,7 +56,13 @@ namespace myList{
 
     template<typename ValueType>
     Node<ValueType>* advance(Node<ValueType>* head, const unsigned int k){
-        return head;
+        auto stepsTaken = 0u;
+        auto advancedNodePtr = head;
+        while(stepsTaken<k && advancedNodePtr != nullptr){
+            advancedNodePtr = advancedNodePtr->next;
+            ++stepsTaken;
+        }
+        return advancedNodePtr;
     }
 
     template<typename ValueType>
