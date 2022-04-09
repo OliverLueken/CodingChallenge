@@ -13,8 +13,8 @@ namespace myList{
     Returns a pointer to a Node containing the passed in value
     */
     template<typename ValueType>
-    Node<ValueType>* make_list(ValueType value){
-        auto head = new Node<ValueType>{value};
+    Node<ValueType>* make_list(ValueType&& value){
+        auto head = new Node<ValueType>{std::forward<ValueType>(value)};
         return head;
     }
 
@@ -23,9 +23,9 @@ namespace myList{
     Returns a pointer to the head of the list
     */
     template<typename ValueType, typename... ValueTypes>
-    Node<ValueType>* make_list(ValueType value, ValueTypes&&... values){
-        auto head = new Node<ValueType>{value};
-        head->next = make_list(values...);
+    Node<ValueType>* make_list(ValueType&& value, ValueTypes&&... values){
+        auto head = new Node<ValueType>{std::forward<ValueType>(value)};
+        head->next = make_list(std::forward<ValueTypes>(values)...);
         return head;
     }
 
