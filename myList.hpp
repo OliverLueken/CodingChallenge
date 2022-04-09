@@ -66,6 +66,11 @@ namespace myList{
     }
 
     template<typename ValueType>
+    Node<ValueType>* reverse_list(Node<ValueType>* head){
+        return head;
+    }
+
+    template<typename ValueType>
     Node<ValueType>* reverseGroups(Node<ValueType>*& head, const unsigned int k){
         if( k<=1 ) return head;
 
