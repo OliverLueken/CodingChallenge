@@ -7,7 +7,7 @@ Test cases to test the functionality of myList
 
 
 
-TEST_CASE("List creation", "[generators]"){
+TEST_CASE("List creation"){
 
     SECTION("Create list with one element"){
         auto head = myList::make_list(1);
@@ -49,4 +49,13 @@ TEST_CASE("List creation", "[generators]"){
 }
 
 
+TEST_CASE("advance"){
+    auto head = myList::make_list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
 
+    SECTION("Advance zero steps"){
+        auto sameAsHeadPtr = advance(head, 0);
+        REQUIRE(sameAsHeadPtr == head);
+    }
+
+    myList::delete_list(head);
+}
