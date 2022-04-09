@@ -55,7 +55,7 @@ namespace myList{
     }
 
     template<typename ValueType>
-    void reverseGroups(Node<ValueType>*& head, const unsigned int k){
+    Node<ValueType>* reverseGroups(Node<ValueType>*& head, const unsigned int k){
         if( k<=1 ) return head;
 
         auto currentGroupHead = head;
@@ -68,7 +68,7 @@ namespace myList{
             //insert group
             //update pointer
         }
-        
+
         return newHead;
     }
 }
