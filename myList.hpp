@@ -53,6 +53,24 @@ namespace myList{
         }
         std::cout << '\n';
     }
+
+    template<typename ValueType>
+    void reverseGroups(Node<ValueType>*& head, const unsigned int k){
+        if( k<=1 ) return head;
+
+        auto currentGroupHead = head;
+        auto currentGroupTail = advance(head, k-1);
+        const auto newHead = currentGroupTail;
+
+        while(currentGroupTail != nullptr){
+            //remove group from list
+            //reverse group
+            //insert group
+            //update pointer
+        }
+        
+        return newHead;
+    }
 }
 
 #endif
