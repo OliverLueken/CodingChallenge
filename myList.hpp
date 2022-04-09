@@ -15,6 +15,18 @@ namespace myList{
         auto head = new Node{value};
         return head;
     }
+
+    /*
+    Exptects the head of a list and destroys every node in that list
+    */
+    void delete_list(Node* head){
+        auto currentNodePtr = head;
+        while(currentNodePtr != nullptr){
+            auto nextNodePtr = currentNodePtr->next;
+            delete currentNodePtr;
+            currentNodePtr = nextNodePtr;
+        }
+    }
 }
 
 #endif
