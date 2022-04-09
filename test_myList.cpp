@@ -14,6 +14,7 @@ TEST_CASE("List creation", "[generators]"){
         REQUIRE(head->value == 1 );
         REQUIRE(head->next  == nullptr );
         myList::delete_list(head);
+        REQUIRE(head == nullptr );
     }
 }
 
