@@ -42,6 +42,17 @@ namespace myList{
         }
         head = nullptr;
     }
+
+    template<typename ValueType>
+    void print(const Node<ValueType>* head){
+        auto currentNodePtr = head;
+        std::cout << "List: ";
+        while(currentNodePtr != nullptr){
+            std::cout << currentNodePtr->value << ' ';
+            currentNodePtr = currentNodePtr->next;
+        }
+        std::cout << '\n';
+    }
 }
 
 #endif
