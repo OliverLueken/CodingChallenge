@@ -2,17 +2,19 @@
 #define MYLIST_HPP
 
 namespace myList{
+    template<typename ValueType>
     struct Node{
-        int value{};
-        Node* next{nullptr};
+        ValueType value{};
+        Node<ValueType>* next{nullptr};
     };
 
     /*
     Creates a list with one element
     Returns a pointer to a Node containing the passed in value
     */
-    Node* make_list(int value){
-        auto head = new Node{value};
+    template<typename ValueType>
+    Node<ValueType>* make_list(ValueType value){
+        auto head = new Node<ValueType>{value};
         return head;
     }
 
@@ -20,9 +22,9 @@ namespace myList{
     Creates a list consisting of the elements passed in
     Returns a pointer to the head of the list
     */
-    template<typename... ValueTypes>
-    Node* make_list(int value, ValueTypes&&... values){
-        auto head = new Node{value};
+    template<typename ValueType, typename... ValueTypes>
+    Node<ValueType>* make_list(ValueType value, ValueTypes&&... values){
+        auto head = new Node<ValueType>{value};
         head->next = make_list(values...);
         return head;
     }
@@ -30,7 +32,8 @@ namespace myList{
     /*
     Exptects the head of a list and destroys every node in that list
     */
-    void delete_list(Node*& head){
+    template<typename ValueType>
+    void delete_list(Node<ValueType>*& head){
         auto currentNodePtr = head;
         while(currentNodePtr != nullptr){
             auto nextNodePtr = currentNodePtr->next;
