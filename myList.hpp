@@ -17,6 +17,17 @@ namespace myList{
     }
 
     /*
+    Creates a list consisting of the elements passed in
+    Returns a pointer to the head of the list
+    */
+    template<typename... ValueTypes>
+    Node* make_list(int value, ValueTypes&&... values){
+        auto head = new Node{value};
+        head->next = make_list(values...);
+        return head;
+    }
+
+    /*
     Exptects the head of a list and destroys every node in that list
     */
     void delete_list(Node*& head){
