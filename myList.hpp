@@ -67,7 +67,18 @@ namespace myList{
 
     template<typename ValueType>
     Node<ValueType>* reverse_list(Node<ValueType>* head){
-        return head;
+        auto lastNodePtr = head;
+        auto currentNodePtr = head->next;
+
+        head->next = nullptr;
+        while(currentNodePtr != nullptr){
+            auto nextNodePtr = currentNodePtr->next;
+            currentNodePtr->next = lastNodePtr;
+
+            lastNodePtr = currentNodePtr;
+            currentNodePtr = nextNodePtr;
+        }
+        return lastNodePtr;
     }
 
     template<typename ValueType>
