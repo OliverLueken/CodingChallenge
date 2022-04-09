@@ -55,6 +55,11 @@ namespace myList{
     }
 
     template<typename ValueType>
+    Node<ValueType>* advance(Node<ValueType>* head, const unsigned int k){
+        return head;
+    }
+
+    template<typename ValueType>
     Node<ValueType>* reverseGroups(Node<ValueType>*& head, const unsigned int k){
         if( k<=1 ) return head;
 
