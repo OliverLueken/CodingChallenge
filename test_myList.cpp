@@ -140,3 +140,11 @@ TEST_CASE("reverse list"){
         REQUIRE(newHead == nullptr );
     }
 }
+
+TEST_CASE("Reverse_group"){
+    auto head = myList::make_list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    myList::print(head);
+    head = myList::reverse_groups(head, 6);
+    myList::print(head);
+    myList::delete_list(head);
+}
