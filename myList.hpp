@@ -122,23 +122,23 @@ namespace myList{
 
         auto currentGroupHead = head;
         auto currentGroupTail = advance(head, k-1);
-        const auto newHead = currentGroupTail;
+        head = currentGroupTail;
 
         //remove group from list
         auto nextGroupHead = split_after(currentGroupTail);
 
         //reverse group
-        auto currentGroupHeadReversed = reverse_list(currentGroupHead);
-        auto currentGroupTailReversed = currentGroupHead;
+        currentGroupTail = currentGroupHead;
+        currentGroupHead = reverse_list(currentGroupHead);
 
         //insert group
-        merge_lists(currentGroupTailReversed, nextGroupHead);
+        merge_lists(currentGroupTail, nextGroupHead);
 
         //update pointer
+        auto lastGroupTail = currentGroupTail;
         currentGroupTail = advance(nextGroupHead, k-1);
 
         while(currentGroupTail != nullptr){
-            auto lastGroupTail = currentGroupTailReversed;
             currentGroupHead = nextGroupHead;
 
             //remove group from list
@@ -146,18 +146,19 @@ namespace myList{
             nextGroupHead = split_after(currentGroupTail);
 
             //reverse group
-            currentGroupHeadReversed = reverse_list(currentGroupHead);
-            currentGroupTailReversed = currentGroupHead;
+            currentGroupTail = currentGroupHead;
+            currentGroupHead = reverse_list(currentGroupHead);
 
             //insert group
-            lastGroupTail->next = currentGroupHeadReversed;
-            merge_lists(currentGroupTailReversed, nextGroupHead);
+            lastGroupTail->next = currentGroupHead;
+            merge_lists(currentGroupTail, nextGroupHead);
 
             //update pointer
+            lastGroupTail = currentGroupTail;
             currentGroupTail = advance(nextGroupHead, k-1);
         }
 
-        return newHead;
+        return head;
     }
 }
 
