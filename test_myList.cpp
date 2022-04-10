@@ -144,6 +144,8 @@ TEST_CASE("reverse list"){
 template<typename... ListValues>
 auto test_reverse_group(unsigned int k, ListValues&&... values){
     auto head = myList::make_list(std::forward<ListValues>(values)...);
+
+    std::cout << "Reversing groups with k = " << k << '\n';
     std::cout << "Before ";
     myList::print(head);
 
