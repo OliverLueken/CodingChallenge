@@ -90,6 +90,17 @@ namespace myList{
     }
 
     /*
+    Removes the nodes following nodePtr from the list
+    Return pointer to the node that followed nodePtr
+    */
+    template<typename ValueType>
+    Node<ValueType>* split_after(Node<ValueType>* nodePtr){
+        auto newListHead = nodePtr->next;
+        nodePtr->next = nullptr;
+        return newListHead;
+    }
+
+    /*
     Devides list in groups of size k and reverses each group
     Returns a pointer to the head of the modified list
     */
@@ -102,8 +113,7 @@ namespace myList{
         const auto newHead = currentGroupTail;
 
         //remove group from list
-        auto nextGroupHead = currentGroupTail->next;
-        currentGroupTail->next = nullptr;
+        auto nextGroupHead = split_after(currentGroupTail);
 
         //reverse group
         auto currentGroupHeadReversed = reverse_list(currentGroupHead);
@@ -121,8 +131,7 @@ namespace myList{
 
             //remove group from list
             lastGroupTail->next = nullptr;
-            nextGroupHead = currentGroupTail->next;
-            currentGroupTail->next = nullptr;
+            nextGroupHead = split_after(currentGroupTail);
 
             //reverse group
             currentGroupHeadReversed = reverse_list(currentGroupHead);
