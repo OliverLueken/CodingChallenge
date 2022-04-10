@@ -156,5 +156,6 @@ auto test_reverse_group(unsigned int k, ListValues&&... values){
 }
 
 TEST_CASE("Reverse_group"){
-    test_reverse_group(6, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    auto k = GENERATE(range(0,16));
+    test_reverse_group(k, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
 }
