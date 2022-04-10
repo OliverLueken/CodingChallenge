@@ -54,11 +54,16 @@ namespace myList{
         std::cout << '\n';
     }
 
+    /*
+    Receives a pointer to a list nodePtr and a positive integer n and
+    returns the pointer to the nth next element in the list
+    returns nullptr if list contains less than n+1 elements 
+    */
     template<typename ValueType>
-    Node<ValueType>* advance(Node<ValueType>* nodePtr, unsigned int stepsToAdvance){
-        while(stepsToAdvance>0 && nodePtr != nullptr){
+    Node<ValueType>* advance(Node<ValueType>* nodePtr, unsigned int n){
+        while(n>0 && nodePtr != nullptr){
             nodePtr = nodePtr->next;
-            --stepsToAdvance;
+            --n;
         }
         return nodePtr;
     }
