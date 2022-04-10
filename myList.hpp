@@ -65,6 +65,11 @@ namespace myList{
         return advancedNodePtr;
     }
 
+    /*
+    Reverses the elements inside the list
+    Returns a pointer to the head of the reversed list
+    The passed in head pointer stays valid and points to the last element in the list
+    */
     template<typename ValueType>
     Node<ValueType>* reverse_list(Node<ValueType>* head){
         auto lastNodePtr = head;
