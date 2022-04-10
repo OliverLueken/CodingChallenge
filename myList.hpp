@@ -118,7 +118,7 @@ namespace myList{
     Returns a pointer to the head of the modified list
     */
     template<typename ValueType>
-    Node<ValueType>* reverse_groups(Node<ValueType>*& head, const unsigned int k){
+    Node<ValueType>* reverse_groups(Node<ValueType>* head, const unsigned int k){
         if( k<=1 ) return head;
 
         auto currentGroupHead = head;
