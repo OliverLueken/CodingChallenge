@@ -2,6 +2,9 @@
 Test cases to test the functionality of myList
 */
 
+#include <ranges>
+#include <algorithm>
+
 #include "catch.hpp"
 #include "myList.hpp"
 
@@ -141,6 +144,38 @@ TEST_CASE("reverse list"){
     }
 }
 
+auto valuesAreReversedAsExpected(myList::Node<int>* head, const int size, int k){
+    if( k==0 ){
+        k=1;
+    }
+    const auto numberOfGroups = size/k;
+    auto currentNodePtr = head;
+
+    auto groupIsReversed = [&currentNodePtr, k](const auto group){
+        auto hasExpectedValue = [&currentNodePtr, k, group](const auto nodeInGroup){
+            const auto expectedValue = (group+1)*k-nodeInGroup;
+            const auto currentValue  = currentNodePtr->value;
+            currentNodePtr = currentNodePtr->next;
+            return expectedValue == currentValue;
+        };
+        auto nodesInGroup = std::views::iota(0, k);
+        return std::ranges::all_of(nodesInGroup, hasExpectedValue);
+    };
+    auto groups = std::views::iota(0, numberOfGroups);
+    auto groupsReversed = std::ranges::all_of(groups, groupIsReversed);
+
+
+    auto hasExpectedValue = [&currentNodePtr](const auto expectedValue){
+        const auto currentValue = currentNodePtr->value;
+        currentNodePtr = currentNodePtr->next;
+        return expectedValue == currentValue;
+    };
+    auto lastElements = std::views::iota( std::min(numberOfGroups*k+1, size), size );
+    auto lastElementsUnreversed = std::ranges::all_of(lastElements, hasExpectedValue);
+
+    return groupsReversed && lastElementsUnreversed;
+}
+
 template<typename... ListValues>
 auto test_reverse_group(unsigned int k, ListValues&&... values){
     auto head = myList::make_list(std::forward<ListValues>(values)...);
@@ -154,10 +189,14 @@ auto test_reverse_group(unsigned int k, ListValues&&... values){
     myList::print(head);
     std::cout << '\n';
 
+    const auto size = sizeof...(ListValues);
+    const auto reverse_group_successful = valuesAreReversedAsExpected(head, size, k);
+
     myList::delete_list(head);
+    return reverse_group_successful;
 }
 
 TEST_CASE("Reverse_group"){
     auto k = GENERATE(range(0,17));
-    test_reverse_group(k, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    REQUIRE( test_reverse_group(k, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16) );
 }
