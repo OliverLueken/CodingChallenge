@@ -180,12 +180,12 @@ template<typename... ListValues>
 auto test_reverse_group(unsigned int k, ListValues&&... values){
     auto head = myList::make_list(std::forward<ListValues>(values)...);
 
-    std::cout << "Reversing group with k = " << k << '\n';
-    std::cout << "Before ";
+    std::cout << "Testing reverse_groups with k = " << k << '\n';
+    std::cout << "Before: ";
     myList::print(head);
 
     head = myList::reverse_groups(head, k);
-    std::cout << "After  ";
+    std::cout << "After:  ";
     myList::print(head);
     std::cout << '\n';
 
