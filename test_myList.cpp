@@ -141,10 +141,20 @@ TEST_CASE("reverse list"){
     }
 }
 
-TEST_CASE("Reverse_group"){
-    auto head = myList::make_list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+template<typename... ListValues>
+auto test_reverse_group(unsigned int k, ListValues&&... values){
+    auto head = myList::make_list(std::forward<ListValues>(values)...);
+    std::cout << "Before ";
     myList::print(head);
-    head = myList::reverse_groups(head, 6);
+
+    head = myList::reverse_groups(head, k);
+    std::cout << "After  ";
     myList::print(head);
+    std::cout << '\n';
+
     myList::delete_list(head);
+}
+
+TEST_CASE("Reverse_group"){
+    test_reverse_group(6, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
 }
