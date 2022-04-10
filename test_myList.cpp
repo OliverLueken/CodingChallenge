@@ -144,13 +144,8 @@ TEST_CASE("reverse list"){
     }
 }
 
-auto valuesAreReversedAsExpected(myList::Node<int>* head, const int size, int k){
-    if( k==0 ){
-        k=1;
-    }
+auto groupsAreReversedAsExpected(auto& currentNodePtr, const auto size, const auto k){
     const auto numberOfGroups = size/k;
-    auto currentNodePtr = head;
-
     auto groupIsReversed = [&currentNodePtr, k](const auto group){
         auto hasExpectedValue = [&currentNodePtr, k, group](const auto nodeInGroup){
             const auto expectedValue = (group+1)*k-nodeInGroup;
@@ -162,18 +157,29 @@ auto valuesAreReversedAsExpected(myList::Node<int>* head, const int size, int k)
         return std::ranges::all_of(nodesInGroup, hasExpectedValue);
     };
     auto groups = std::views::iota(0, numberOfGroups);
-    auto groupsReversed = std::ranges::all_of(groups, groupIsReversed);
+    return std::ranges::all_of(groups, groupIsReversed);
+}
 
-
+auto remainingElementsStayUnmodified(auto& currentNodePtr, const auto size, const auto k){
+    const auto numberOfGroups = size/k;
     auto hasExpectedValue = [&currentNodePtr](const auto expectedValue){
         const auto currentValue = currentNodePtr->value;
         currentNodePtr = currentNodePtr->next;
         return expectedValue == currentValue;
     };
-    auto lastElements = std::views::iota( std::min(numberOfGroups*k+1, size), size );
-    auto lastElementsUnreversed = std::ranges::all_of(lastElements, hasExpectedValue);
+    auto remainingElements = std::views::iota( std::min(numberOfGroups*k+1, size), size );
+    return std::ranges::all_of(remainingElements, hasExpectedValue);
+}
 
-    return groupsReversed && lastElementsUnreversed;
+auto valuesAreReversedAsExpected(myList::Node<int>* head, const int size, int k){
+    if( k==0 ){
+        k=1;
+    }
+    auto currentNodePtr = head;
+    const auto groupsReversed         = groupsAreReversedAsExpected    (currentNodePtr, size, k);
+    const auto lastElementsUnmodified = remainingElementsStayUnmodified(currentNodePtr, size, k);
+
+    return groupsReversed && lastElementsUnmodified;
 }
 
 template<typename... ListValues>
