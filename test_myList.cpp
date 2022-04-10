@@ -180,7 +180,7 @@ template<typename... ListValues>
 auto test_reverse_group(unsigned int k, ListValues&&... values){
     auto head = myList::make_list(std::forward<ListValues>(values)...);
 
-    std::cout << "Reversing groups with k = " << k << '\n';
+    std::cout << "Reversing group with k = " << k << '\n';
     std::cout << "Before ";
     myList::print(head);
 
@@ -197,6 +197,24 @@ auto test_reverse_group(unsigned int k, ListValues&&... values){
 }
 
 TEST_CASE("Reverse_group"){
-    auto k = GENERATE(range(0,17));
-    REQUIRE( test_reverse_group(k, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16) );
+    SECTION("Reverse_group with one element"){
+        REQUIRE( test_reverse_group(0, 1) );
+        REQUIRE( test_reverse_group(1, 1) );
+    }
+
+    SECTION("Reverse_group with two elements"){
+        REQUIRE( test_reverse_group(0, 1, 2) );
+        REQUIRE( test_reverse_group(1, 1, 2) );
+        REQUIRE( test_reverse_group(2, 1, 2) );
+    }
+
+    SECTION("Reverse_group with nine elements"){
+        auto k = GENERATE(range(0,10));
+        REQUIRE( test_reverse_group(k, 1, 2, 3, 4, 5, 6, 7, 8, 9) );
+    }
+
+    SECTION("Reverse_group with a lot of elements"){
+        auto k = GENERATE(range(0,17));
+        REQUIRE( test_reverse_group(k, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16) );
+    }
 }
