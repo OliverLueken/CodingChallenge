@@ -30,7 +30,7 @@ namespace myList{
     }
 
     /*
-    Exptects the head of a list and destroys every node in that list
+    Expects the head of a list and destroys every node in that list
     */
     template<typename ValueType>
     void delete_list(Node<ValueType>*& head){
@@ -89,6 +89,10 @@ namespace myList{
         return lastNodePtr;
     }
 
+    /*
+    Devides list in groups of size k and reverses each group
+    Returns a pointer to the head of the modified list
+    */
     template<typename ValueType>
     Node<ValueType>* reverse_groups(Node<ValueType>*& head, const unsigned int k){
         if( k<=1 ) return head;
