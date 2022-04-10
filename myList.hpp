@@ -11,6 +11,7 @@ namespace myList{
     /*
     Creates a list with one element
     Returns a pointer to a Node containing the passed in value
+    A list created with make_list has to be destroyed with delete_list to not leak memory
     */
     template<typename ValueType>
     Node<ValueType>* make_list(ValueType&& value){
