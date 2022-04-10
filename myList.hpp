@@ -114,7 +114,7 @@ namespace myList{
     }
 
     /*
-    Devides list in groups of size k and reverses each group
+    Devides list in groups of size k and reverses each group, nodes at the end of the list that do not fill a whole group are not reversed
     Returns a pointer to the head of the modified list
     */
     template<typename ValueType>
