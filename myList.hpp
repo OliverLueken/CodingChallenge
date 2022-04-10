@@ -122,6 +122,7 @@ namespace myList{
 
         auto currentGroupHead = head;
         auto currentGroupTail = advance(head, k-1);
+        if(currentGroupTail == nullptr) return head; //k is greater than nodes in the list 
         head = currentGroupTail;
 
         //remove group from list
