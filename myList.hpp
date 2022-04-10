@@ -101,6 +101,18 @@ namespace myList{
     }
 
     /*
+    Merges two lists
+    */
+    template<typename ValueType>
+    void merge_lists(Node<ValueType>* firstList, Node<ValueType>* secondList){
+        auto lastNodePtr = firstList;
+        while(lastNodePtr->next != nullptr){
+            lastNodePtr = lastNodePtr->next;
+        }
+        lastNodePtr->next = secondList;
+    }
+
+    /*
     Devides list in groups of size k and reverses each group
     Returns a pointer to the head of the modified list
     */
@@ -120,7 +132,7 @@ namespace myList{
         auto currentGroupTailReversed = currentGroupHead;
 
         //insert group
-        currentGroupTailReversed->next = nextGroupHead;
+        merge_lists(currentGroupTailReversed, nextGroupHead);
 
         //update pointer
         currentGroupTail = advance(nextGroupHead, k-1);
@@ -139,7 +151,7 @@ namespace myList{
 
             //insert group
             lastGroupTail->next = currentGroupHeadReversed;
-            currentGroupTailReversed->next = nextGroupHead;
+            merge_lists(currentGroupTailReversed, nextGroupHead);
 
             //update pointer
             currentGroupTail = advance(nextGroupHead, k-1);
