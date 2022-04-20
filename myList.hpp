@@ -115,51 +115,42 @@ namespace myList{
         lastNodePtr->next = secondList;
     }
 
+
     /*
-    Devides list in groups of size k and reverses each group, nodes at the end of the list that do not fill a whole group are not reversed
+    Devides list in groups of size k and reverses each group. Nodes at the end of the list that do not fill a whole group are not reversed
     Returns a pointer to the head of the modified list
     */
     template<typename ValueType>
     Node<ValueType>* reverse_groups(Node<ValueType>* head, const unsigned int k){
         if( k<=1 ) return head;
 
-        auto currentGroupHead = head;
-        auto currentGroupTail = advance(head, k-1);
-        if(currentGroupTail == nullptr) return head; //k is greater than nodes in the list
-        head = currentGroupTail;
-
-        //remove group from list
-        auto nextGroupHead = split_after(currentGroupTail);
-
-        //reverse group
-        currentGroupTail = currentGroupHead;
-        currentGroupHead = reverse_list(currentGroupHead);
-
-        //insert group
-        merge_lists(currentGroupTail, nextGroupHead);
-
-        //update pointer
-        auto lastGroupTail = currentGroupTail;
-        currentGroupTail = advance(nextGroupHead, k-1);
-
-        while(currentGroupTail != nullptr){
-            currentGroupHead = nextGroupHead;
+        auto reverseNodes = [](auto& ptrToGroupHead, auto ptrToGroupTail){
+            auto groupHead = ptrToGroupHead;
 
             //remove group from list
-            lastGroupTail->next = nullptr;
-            nextGroupHead = split_after(currentGroupTail);
+            ptrToGroupHead = nullptr;
+            auto nextGroupHead = split_after(ptrToGroupTail);
 
             //reverse group
-            currentGroupTail = currentGroupHead;
-            currentGroupHead = reverse_list(currentGroupHead);
+            ptrToGroupTail = groupHead;
+            groupHead = reverse_list(groupHead);
 
             //insert group
-            lastGroupTail->next = currentGroupHead;
-            merge_lists(currentGroupTail, nextGroupHead);
+            ptrToGroupHead = groupHead;
+            merge_lists(ptrToGroupTail, nextGroupHead);
 
-            //update pointer
-            lastGroupTail = currentGroupTail;
-            currentGroupTail = advance(nextGroupHead, k-1);
+            return ptrToGroupTail;
+        };
+
+        auto currentGroupTail = advance(head, k-1);
+        if(currentGroupTail == nullptr) return head; //k is greater than nodes in the list
+
+        auto previousGroupTail = reverseNodes(head, currentGroupTail);
+        currentGroupTail = advance(previousGroupTail, k);
+
+        while(currentGroupTail != nullptr){
+            previousGroupTail = reverseNodes(previousGroupTail->next, currentGroupTail);
+            currentGroupTail = advance(previousGroupTail, k);
         }
 
         return head;
