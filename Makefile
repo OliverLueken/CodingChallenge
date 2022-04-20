@@ -9,7 +9,10 @@ CPPSANITIZER = -fsanitize=undefined,address
 CPPFLAGS = -std=c++20 -O3 $(CPPWARNINGS) $(CPPSANITIZER)
 
 
-all: test
+all: main.out
+
+main.out: main.cpp myList.hpp
+	$(CPP) $(CPPFLAGS) main.cpp -o main.out
 
 test: main_test.cpp myList.hpp test_myList.cpp
 	$(CPP) $(CPPFLAGS) main_test.cpp -o test.out
