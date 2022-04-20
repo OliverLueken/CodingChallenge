@@ -1,6 +1,9 @@
 #ifndef MYLIST_HPP
 #define MYLIST_HPP
 
+#include <algorithm>
+#include <iostream>
+
 namespace myList{
     template<typename ValueType>
     struct Node{
@@ -122,7 +125,7 @@ namespace myList{
 
         auto currentGroupHead = head;
         auto currentGroupTail = advance(head, k-1);
-        if(currentGroupTail == nullptr) return head; //k is greater than nodes in the list 
+        if(currentGroupTail == nullptr) return head; //k is greater than nodes in the list
         head = currentGroupTail;
 
         //remove group from list
