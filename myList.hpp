@@ -125,18 +125,14 @@ namespace myList{
         if( k<=1 ) return head;
 
         auto reverseNodes = [](auto& ptrToGroupHead, auto ptrToGroupTail){
-            auto groupHead = ptrToGroupHead;
-
             //remove group from list
-            ptrToGroupHead = nullptr;
             auto nextGroupHead = split_after(ptrToGroupTail);
 
             //reverse group
-            ptrToGroupTail = groupHead;
-            groupHead = reverse_list(groupHead);
+            ptrToGroupTail = ptrToGroupHead;
+            ptrToGroupHead = reverse_list(ptrToGroupHead);
 
             //insert group
-            ptrToGroupHead = groupHead;
             merge_lists(ptrToGroupTail, nextGroupHead);
 
             return ptrToGroupTail;
