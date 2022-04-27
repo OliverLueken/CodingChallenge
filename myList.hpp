@@ -64,21 +64,6 @@ namespace myList{
         }
         std::cout << '\n';
     }
-    //
-    // /*
-    // Receives a pointer to a list nodePtr and a positive integer n and
-    // returns the pointer to the nth next element in the list
-    // returns nullptr if list contains less than n+1 elements
-    // */
-    // template<typename ValueType>
-    // Node<ValueType>* advance(Node<ValueType>* nodePtr, unsigned int n){
-    //     while(n>0 && nodePtr != nullptr){
-    //         nodePtr = nodePtr->next;
-    //         --n;
-    //     }
-    //     return nodePtr;
-    // }
-    //
     // /*
     // Reverses the elements inside the list
     // Returns a pointer to the head of the reversed list
@@ -100,6 +85,21 @@ namespace myList{
     //     return lastNodePtr;
     // }
     //
+
+    /*
+    Receives a pointer to a list nodePtr and a positive integer n and
+    returns the pointer to the nth next element in the list
+    returns nullptr if list contains less than n+1 elements
+    */
+    template<typename ValueType>
+    Node<ValueType>* advance(Node<ValueType>* nodePtr, unsigned int n){
+        while(n>0 && nodePtr != nullptr){
+            nodePtr = nodePtr->next;
+            --n;
+        }
+        return nodePtr;
+    }
+
     // /*
     // Removes the nodes following nodePtr from the list
     // Return pointer to the node that followed nodePtr
