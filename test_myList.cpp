@@ -44,43 +44,42 @@ TEST_CASE("List creation"){
 }
 
 
-// TEST_CASE("advance"){
-//     auto head = myList::make_list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
-//
-//     SECTION("Advance zero steps"){
-//         auto sameAsHeadPtr = advance(head, 0);
-//         REQUIRE(sameAsHeadPtr == head);
-//     }
-//
-//     SECTION("Advance one steps"){
-//         auto nextNodePtr = advance(head, 1);
-//         REQUIRE(nextNodePtr == head->next);
-//     }
-//
-//     SECTION("Advance more steps"){
-//         auto steps   = GENERATE(range(1,15));
-//         auto nodePtr = advance(head, steps);
-//         REQUIRE(nodePtr->value == steps+1);
-//     }
-//
-//     SECTION("Advance multiple times"){
-//         auto firstStep  = GENERATE(range(1,5));
-//         auto secondStep = GENERATE(range(1,5));
-//         auto nodePtr       = advance(head,    firstStep );
-//         auto secondNodePtr = advance(nodePtr, secondStep);
-//         REQUIRE(secondNodePtr->value == firstStep+secondStep+1);
-//     }
-//
-//     SECTION("Advance beyond list"){
-//         auto nodePtr = advance(head, 16);
-//         REQUIRE(nodePtr == nullptr);
-//
-//         auto anotherNodePtr = advance(head, 17);
-//         REQUIRE(anotherNodePtr == nullptr);
-//     }
-//
-    // myList::delete_list(head);
-// }
+TEST_CASE("advance"){
+    auto list = myList::make_list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    auto head = list.get();
+
+    SECTION("Advance zero steps"){
+        auto sameAsHeadPtr = advance(head, 0);
+        REQUIRE(sameAsHeadPtr == head);
+    }
+
+    SECTION("Advance one steps"){
+        auto nextNodePtr = advance(head, 1);
+        REQUIRE(nextNodePtr == head->next);
+    }
+
+    SECTION("Advance more steps"){
+        auto steps   = GENERATE(range(1,15));
+        auto nodePtr = advance(head, steps);
+        REQUIRE(nodePtr->value == steps+1);
+    }
+
+    SECTION("Advance multiple times"){
+        auto firstStep  = GENERATE(range(1,5));
+        auto secondStep = GENERATE(range(1,5));
+        auto nodePtr       = advance(head,    firstStep );
+        auto secondNodePtr = advance(nodePtr, secondStep);
+        REQUIRE(secondNodePtr->value == firstStep+secondStep+1);
+    }
+
+    SECTION("Advance beyond list"){
+        auto nodePtr = advance(head, 16);
+        REQUIRE(nodePtr == nullptr);
+
+        auto anotherNodePtr = advance(head, 17);
+        REQUIRE(anotherNodePtr == nullptr);
+    }
+}
 //
 //
 // TEST_CASE("reverse list"){
