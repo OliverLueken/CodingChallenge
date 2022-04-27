@@ -12,6 +12,25 @@ namespace myList{
     };
 
     /*
+    Expects the head of a list and destroys every node in that list
+    */
+    template<typename ValueType>
+    void delete_list(Node<ValueType>* head){
+        auto currentNodePtr = head;
+        while(currentNodePtr != nullptr){
+            auto nextNodePtr = currentNodePtr->next;
+            delete currentNodePtr;
+            currentNodePtr = nextNodePtr;
+        }
+    }
+
+    template<typename ValueType>
+    using List = std::unique_ptr<
+        Node<ValueType>,
+        decltype(&delete_list<ValueType>)
+    >;
+
+    /*
     Creates a list with one element
     Returns a pointer to a Node containing the passed in value
     A list created with make_list has to be destroyed with delete_list to not leak memory
@@ -31,20 +50,6 @@ namespace myList{
         auto head = new Node<ValueType>{std::forward<ValueType>(value)};
         head->next = make_list(std::forward<ValueTypes>(values)...);
         return head;
-    }
-
-    /*
-    Expects the head of a list and destroys every node in that list
-    */
-    template<typename ValueType>
-    void delete_list(Node<ValueType>*& head){
-        auto currentNodePtr = head;
-        while(currentNodePtr != nullptr){
-            auto nextNodePtr = currentNodePtr->next;
-            delete currentNodePtr;
-            currentNodePtr = nextNodePtr;
-        }
-        head = nullptr;
     }
 
     template<typename ValueType>
