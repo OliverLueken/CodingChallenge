@@ -54,16 +54,16 @@ namespace myList{
         return head;
     }
 
-    //
-    // template<typename ValueType>
-    // void print(const Node<ValueType>* head){
-    //     auto currentNodePtr = head;
-    //     while(currentNodePtr != nullptr){
-    //         std::cout << currentNodePtr->value << ' ';
-    //         currentNodePtr = currentNodePtr->next;
-    //     }
-    //     std::cout << '\n';
-    // }
+
+    template<typename ValueType>
+    void print(const List<ValueType>& head){
+        auto currentNodePtr = head.get();
+        while(currentNodePtr != nullptr){
+            std::cout << currentNodePtr->value << ' ';
+            currentNodePtr = currentNodePtr->next;
+        }
+        std::cout << '\n';
+    }
     //
     // /*
     // Receives a pointer to a list nodePtr and a positive integer n and
