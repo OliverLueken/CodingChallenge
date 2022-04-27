@@ -64,27 +64,6 @@ namespace myList{
         }
         std::cout << '\n';
     }
-    // /*
-    // Reverses the elements inside the list
-    // Returns a pointer to the head of the reversed list
-    // The passed in head pointer stays valid and points to the last element in the list
-    // */
-    // template<typename ValueType>
-    // Node<ValueType>* reverse_list(Node<ValueType>* head){
-    //     auto lastNodePtr = head;
-    //     auto currentNodePtr = head->next;
-    //
-    //     head->next = nullptr;
-    //     while(currentNodePtr != nullptr){
-    //         auto nextNodePtr = currentNodePtr->next;
-    //         currentNodePtr->next = lastNodePtr;
-    //
-    //         lastNodePtr = currentNodePtr;
-    //         currentNodePtr = nextNodePtr;
-    //     }
-    //     return lastNodePtr;
-    // }
-    //
 
     /*
     Receives a pointer to a list nodePtr and a positive integer n and
@@ -98,6 +77,27 @@ namespace myList{
             --n;
         }
         return nodePtr;
+    }
+
+    /*
+    Reverses the elements inside the list
+    Returns a pointer to the head of the reversed list
+    The passed in head pointer stays valid and points to the last element in the list
+    */
+    template<typename ValueType>
+    List<ValueType> reverse_list(List<ValueType>& head){
+        auto lastNodePtr = head.release();
+        auto currentNodePtr = lastNodePtr->next;
+
+        lastNodePtr->next = nullptr;
+        while(currentNodePtr != nullptr){
+            auto nextNodePtr = currentNodePtr->next;
+            currentNodePtr->next = lastNodePtr;
+
+            lastNodePtr = currentNodePtr;
+            currentNodePtr = nextNodePtr;
+        }
+        return List<ValueType>{lastNodePtr, &delete_list<ValueType>};
     }
 
     // /*
