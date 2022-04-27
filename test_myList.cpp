@@ -80,60 +80,61 @@ TEST_CASE("advance"){
         REQUIRE(anotherNodePtr == nullptr);
     }
 }
-//
-//
-// TEST_CASE("reverse list"){
-//     SECTION("Reverse list with one element"){
-//         auto head = myList::make_list(1);
-//         auto newHead = myList::reverse_list(head);
-//
-//         REQUIRE(newHead == head );
-//
-//         REQUIRE(newHead->value == 1 );
-//         REQUIRE(newHead->next  == nullptr );
-//
-        // myList::delete_list(newHead);
-//         REQUIRE(newHead == nullptr );
-//     }
-//
-//     SECTION("Reverse list with two elements"){
-//         auto head = myList::make_list(1, 2);
-//         auto newHead = myList::reverse_list(head);
-//
-//         REQUIRE(head->value == 1 );
-//         REQUIRE(head->next  == nullptr );
-//
-//         auto currentNodePtr = newHead;
-//         REQUIRE(currentNodePtr->value == 2 );
-//         REQUIRE(currentNodePtr->next  != nullptr );
-//
-//         currentNodePtr = currentNodePtr->next;
-//         REQUIRE(currentNodePtr->value == 1 );
-//         REQUIRE(currentNodePtr->next  == nullptr );
-//
-        // myList::delete_list(newHead);
-//         REQUIRE(newHead == nullptr );
-//     }
-//
-//     SECTION("Reverse list with a lot of elements"){
-//         auto head = myList::make_list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
-//         auto newHead = myList::reverse_list(head);
-//
-//         REQUIRE(head->value == 1 );
-//         REQUIRE(head->next  == nullptr );
-//
-//         auto currentNodePtr = newHead;
-//         int expectedValue = 16;
-//         while(currentNodePtr != nullptr){
-//             REQUIRE(currentNodePtr->value == expectedValue);
-//             currentNodePtr = currentNodePtr->next;
-//             --expectedValue;
-//         }
-//
-        // myList::delete_list(newHead);
-//         REQUIRE(newHead == nullptr );
-//     }
-// }
+
+
+TEST_CASE("reverse list"){
+    SECTION("Reverse list with one element"){
+        auto list = myList::make_list(1);
+        auto head = list.get();
+
+        auto reversedList = myList::reverse_list(list);
+        auto newHead = reversedList.get();
+
+
+        REQUIRE(newHead == head );
+
+        REQUIRE(newHead->value == 1 );
+        REQUIRE(newHead->next  == nullptr );
+    }
+
+    SECTION("Reverse list with two elements"){
+        auto list = myList::make_list(1, 2);
+        auto head = list.get();
+
+        auto reversedList = myList::reverse_list(list);
+        auto newHead = reversedList.get();
+
+        REQUIRE(head->value == 1 );
+        REQUIRE(head->next  == nullptr );
+
+        auto currentNodePtr = newHead;
+        REQUIRE(currentNodePtr->value == 2 );
+        REQUIRE(currentNodePtr->next  != nullptr );
+
+        currentNodePtr = currentNodePtr->next;
+        REQUIRE(currentNodePtr->value == 1 );
+        REQUIRE(currentNodePtr->next  == nullptr );
+    }
+
+    SECTION("Reverse list with a lot of elements"){
+        auto list = myList::make_list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+        auto head = list.get();
+
+        auto reversedList = myList::reverse_list(list);
+        auto newHead = reversedList.get();
+
+        REQUIRE(head->value == 1 );
+        REQUIRE(head->next  == nullptr );
+
+        auto currentNodePtr = newHead;
+        int expectedValue = 16;
+        while(currentNodePtr != nullptr){
+            REQUIRE(currentNodePtr->value == expectedValue);
+            currentNodePtr = currentNodePtr->next;
+            --expectedValue;
+        }
+    }
+}
 //
 // auto groupsAreReversedAsExpected(auto& currentNodePtr, const auto size, const auto k){
 //     const auto numberOfGroups = size/k;
