@@ -153,27 +153,25 @@ namespace myList{
     void reverse_groups(List<ValueType>& list, const unsigned int k){
         if( k<=1 ) return;
 
-        auto head = list.get();
-        auto currentGroupTail = advance(head, k-1);
+        auto currentGroupTail = advance(list.get(), k-1);
         if(currentGroupTail == nullptr) return; //k is greater than size of list
 
-        auto nextGroupHead = split_after(currentGroupTail);
-
-        //reverse group
+        auto nextList = split_after(currentGroupTail);
         currentGroupTail = reverse_list(list);
-
-        //insert group
-        merge_lists(list, nextGroupHead);
-        auto previousGroupTail = currentGroupTail;
+        merge_lists(list, nextList);
+        auto previousListTail = currentGroupTail;
         currentGroupTail = advance(currentGroupTail, k);
 
         while(currentGroupTail != nullptr){
-            nextGroupHead = split_after(currentGroupTail);
-            auto currentGroupList = split_after(previousGroupTail);
+            nextList = split_after(currentGroupTail);
+            auto currentGroupList = split_after(previousListTail);
+
             currentGroupTail = reverse_list(currentGroupList);
-            merge_lists(currentGroupList, nextGroupHead);
+
+            merge_lists(currentGroupList, nextList);
             merge_lists(list, currentGroupList);
-            previousGroupTail = currentGroupTail;
+
+            previousListTail = currentGroupTail;
             currentGroupTail = advance(currentGroupTail, k);
         }
     }
