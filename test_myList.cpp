@@ -134,87 +134,7 @@ TEST_CASE("reverse list"){
         REQUIRE(currentNodePtr == lastElementPtr);
     }
 }
-//
-// auto groupsAreReversedAsExpected(auto& currentNodePtr, const auto size, const auto k){
-//     const auto numberOfGroups = size/k;
-//     auto groupIsReversed = [&currentNodePtr, k](const auto group){
-//         auto hasExpectedValue = [&currentNodePtr, k, group](const auto nodeInGroup){
-//             const auto expectedValue = (group+1)*k-nodeInGroup;
-//             const auto currentValue  = currentNodePtr->value;
-//             currentNodePtr = currentNodePtr->next;
-//             return expectedValue == currentValue;
-//         };
-//         auto nodesInGroup = std::views::iota(0, k);
-//         return std::ranges::all_of(nodesInGroup, hasExpectedValue);
-//     };
-//     auto groups = std::views::iota(0, numberOfGroups);
-//     return std::ranges::all_of(groups, groupIsReversed);
-// }
-//
-// auto remainingElementsStayUnmodified(auto& currentNodePtr, const auto size, const auto k){
-//     const auto numberOfGroups = size/k;
-//     auto hasExpectedValue = [&currentNodePtr](const auto expectedValue){
-//         const auto currentValue = currentNodePtr->value;
-//         currentNodePtr = currentNodePtr->next;
-//         return expectedValue == currentValue;
-//     };
-//     auto remainingElements = std::views::iota( std::min(numberOfGroups*k+1, size), size );
-//     return std::ranges::all_of(remainingElements, hasExpectedValue);
-// }
-//
-// auto valuesAreReversedAsExpected(myList::Node<int>* head, const int size, int k){
-//     if( k==0 ){
-//         k=1;
-//     }
-//     auto currentNodePtr = head;
-//     const auto groupsReversed         = groupsAreReversedAsExpected    (currentNodePtr, size, k);
-//     const auto lastElementsUnmodified = remainingElementsStayUnmodified(currentNodePtr, size, k);
-//
-//     return groupsReversed && lastElementsUnmodified;
-// }
-//
-// template<typename... ListValues>
-// auto test_reverse_group(unsigned int k, ListValues&&... values){
-//     auto head = myList::make_list(std::forward<ListValues>(values)...);
-//
-//     std::cout << "Testing reverse_groups with k = " << k << '\n';
-//     std::cout << "Before: ";
-//     myList::print(head);
-//
-//     head = myList::reverse_groups(head, k);
-//     std::cout << "After:  ";
-//     myList::print(head);
-//     std::cout << '\n';
-//
-//     const auto size = sizeof...(ListValues);
-//     const auto reverse_group_successful = valuesAreReversedAsExpected(head, size, k);
-//
-    // myList::delete_list(head);
-//     return reverse_group_successful;
-// }
-//
-// TEST_CASE("Reverse_group"){
-//     SECTION("Reverse_group with one element"){
-//         REQUIRE( test_reverse_group(0, 1) );
-//         REQUIRE( test_reverse_group(1, 1) );
-//     }
-//
-//     SECTION("Reverse_group with two elements"){
-//         REQUIRE( test_reverse_group(0, 1, 2) );
-//         REQUIRE( test_reverse_group(1, 1, 2) );
-//         REQUIRE( test_reverse_group(2, 1, 2) );
-//     }
-//
-//     SECTION("Reverse_group with nine elements"){
-//         auto k = GENERATE(range(0,10));
-//         REQUIRE( test_reverse_group(k, 1, 2, 3, 4, 5, 6, 7, 8, 9) );
-//     }
-//
-//     SECTION("Reverse_group with a lot of elements"){
-//         auto k = GENERATE(range(0,17));
-//         REQUIRE( test_reverse_group(k, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16) );
-//     }
-// }
+
 TEST_CASE("split_after"){
     SECTION("Split after k-th element"){
         auto k = GENERATE(range(1,10));
@@ -246,5 +166,85 @@ TEST_CASE("split_after"){
         REQUIRE( newList.get() == nullptr );
         CHECK( listIt->value == 3 );
         REQUIRE( listIt->next == nullptr );
+    }
+}
+
+auto groupsAreReversedAsExpected(auto& currentNodePtr, const auto size, const auto k){
+    const auto numberOfGroups = size/k;
+    auto groupIsReversed = [&currentNodePtr, k](const auto group){
+        auto hasExpectedValue = [&currentNodePtr, k, group](const auto nodeInGroup){
+            const auto expectedValue = (group+1)*k-nodeInGroup;
+            const auto currentValue  = currentNodePtr->value;
+            currentNodePtr = currentNodePtr->next;
+            return expectedValue == currentValue;
+        };
+        auto nodesInGroup = std::views::iota(0, k);
+        return std::ranges::all_of(nodesInGroup, hasExpectedValue);
+    };
+    auto groups = std::views::iota(0, numberOfGroups);
+    return std::ranges::all_of(groups, groupIsReversed);
+}
+
+auto remainingElementsStayUnmodified(auto& currentNodePtr, const auto size, const auto k){
+    const auto numberOfGroups = size/k;
+    auto hasExpectedValue = [&currentNodePtr](const auto expectedValue){
+        const auto currentValue = currentNodePtr->value;
+        currentNodePtr = currentNodePtr->next;
+        return expectedValue == currentValue;
+    };
+    auto remainingElements = std::views::iota( std::min(numberOfGroups*k+1, size), size );
+    return std::ranges::all_of(remainingElements, hasExpectedValue);
+}
+
+auto valuesAreReversedAsExpected(myList::List<int>& reversedList, const int size, int k){
+    if( k==0 ){
+        k=1;
+    }
+    auto currentNodePtr = reversedList.get();
+    const auto groupsReversed         = groupsAreReversedAsExpected    (currentNodePtr, size, k);
+    const auto lastElementsUnmodified = remainingElementsStayUnmodified(currentNodePtr, size, k);
+
+    return groupsReversed && lastElementsUnmodified;
+}
+
+template<typename... ListValues>
+auto test_reverse_group(unsigned int k, ListValues&&... values){
+    auto list = myList::make_list(std::forward<ListValues>(values)...);
+
+    std::cout << "Testing reverse_groups with k = " << k << '\n';
+    std::cout << "Before: ";
+    myList::print(list);
+
+    auto reversedList = myList::reverse_groups(list, k);
+    std::cout << "After:  ";
+    myList::print(reversedList);
+    std::cout << '\n';
+
+    const auto size = sizeof...(ListValues);
+    const auto reverse_group_successful = valuesAreReversedAsExpected(reversedList, size, k);
+
+    return reverse_group_successful;
+}
+
+TEST_CASE("Reverse_group"){
+    SECTION("Reverse_group with one element"){
+        REQUIRE( test_reverse_group(0, 1) );
+        REQUIRE( test_reverse_group(1, 1) );
+    }
+
+    SECTION("Reverse_group with two elements"){
+        REQUIRE( test_reverse_group(0, 1, 2) );
+        REQUIRE( test_reverse_group(1, 1, 2) );
+        REQUIRE( test_reverse_group(2, 1, 2) );
+    }
+
+    SECTION("Reverse_group with nine elements"){
+        auto k = GENERATE(range(0,10));
+        REQUIRE( test_reverse_group(k, 1, 2, 3, 4, 5, 6, 7, 8, 9) );
+    }
+
+    SECTION("Reverse_group with a lot of elements"){
+        auto k = GENERATE(range(0,17));
+        REQUIRE( test_reverse_group(k, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16) );
     }
 }
