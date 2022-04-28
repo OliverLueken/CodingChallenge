@@ -100,16 +100,6 @@ namespace myList{
         return List<ValueType>{lastNodePtr, &delete_list<ValueType>};
     }
 
-    // /*
-    // Removes the nodes following nodePtr from the list
-    // Return pointer to the node that followed nodePtr
-    // */
-    // template<typename ValueType>
-    // Node<ValueType>* split_after(Node<ValueType>* nodePtr){
-    //     auto newListHead = nodePtr->next;
-    //     nodePtr->next = nullptr;
-    //     return newListHead;
-    // }
     //
     // /*
     // Merges two lists
@@ -159,6 +149,25 @@ namespace myList{
     //
     //     return head;
     // }
+    /*
+    Removes the nodes following nodePtr from the list
+    Return pointer to the node that followed nodePtr
+    */
+    template<typename ValueType>
+    List<ValueType> split_after(Node<ValueType>* nodePtr){
+        if(nodePtr == nullptr){
+            return List<ValueType>{
+                nullptr,
+                &delete_list
+            };
+        }
+        auto newListHead = List<ValueType>{
+            nodePtr->next,
+            &delete_list
+        };
+        nodePtr->next = nullptr;
+        return newListHead;
+    }
 }
 
 #endif
