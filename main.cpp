@@ -6,18 +6,16 @@
 
 template<typename... ListValues>
 auto test_reverse_group(unsigned int k, ListValues&&... values){
-    auto head = myList::make_list(std::forward<ListValues>(values)...);
+    auto list = myList::make_list(std::forward<ListValues>(values)...);
 
     std::cout << "Testing reverse_groups with k = " << k << '\n';
     std::cout << "Before: ";
-    myList::print(head);
+    myList::print(list);
 
-    head = myList::reverse_groups(head, k);
+    myList::reverse_groups(list, k);
     std::cout << "After:  ";
-    myList::print(head);
+    myList::print(list);
     std::cout << '\n';
-
-    myList::delete_list(head);
 }
 
 int main(){
