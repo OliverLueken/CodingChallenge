@@ -105,55 +105,6 @@ namespace myList{
         return lastElementPtr;
     }
 
-    //
-    // /*
-    // Merges two lists
-    // */
-    // template<typename ValueType>
-    // void merge_lists(Node<ValueType>* firstList, Node<ValueType>* secondList){
-    //     auto lastNodePtr = firstList;
-    //     while(lastNodePtr->next != nullptr){
-    //         lastNodePtr = lastNodePtr->next;
-    //     }
-    //     lastNodePtr->next = secondList;
-    // }
-    //
-    //
-    // /*
-    // Devides list in groups of size k and reverses each group. Nodes at the end of the list that do not fill a whole group are not reversed
-    // Returns a pointer to the head of the modified list
-    // */
-    // template<typename ValueType>
-    // Node<ValueType>* reverse_groups(Node<ValueType>* head, const unsigned int k){
-    //     if( k<=1 ) return head;
-    //
-    //     auto reverseNodes = [](auto& ptrToGroupHead, auto ptrToGroupTail){
-    //         //remove group from list
-    //         auto nextGroupHead = split_after(ptrToGroupTail);
-    //
-    //         //reverse group
-    //         ptrToGroupTail = ptrToGroupHead;
-    //         ptrToGroupHead = reverse_list(ptrToGroupHead);
-    //
-    //         //insert group
-    //         merge_lists(ptrToGroupTail, nextGroupHead);
-    //
-    //         return ptrToGroupTail;
-    //     };
-    //
-    //     auto currentGroupTail = advance(head, k-1);
-    //     if(currentGroupTail == nullptr) return head; //k is greater than nodes in the list
-    //
-    //     auto previousGroupTail = reverseNodes(head, currentGroupTail);
-    //     currentGroupTail = advance(previousGroupTail, k);
-    //
-    //     while(currentGroupTail != nullptr){
-    //         previousGroupTail = reverseNodes(previousGroupTail->next, currentGroupTail);
-    //         currentGroupTail = advance(previousGroupTail, k);
-    //     }
-    //
-    //     return head;
-    // }
     /*
     Removes the nodes following nodePtr from the list
     Return pointer to the node that followed nodePtr
@@ -172,6 +123,61 @@ namespace myList{
         };
         nodePtr->next = nullptr;
         return newListHead;
+    }
+
+    /*
+    Merges two lists
+    */
+    template<typename ValueType>
+    void merge_lists(List<ValueType>& firstList, List<ValueType>& secondList){
+        auto lastNodePtr = firstList.get();
+        if( lastNodePtr == nullptr ){
+            std::swap(firstList, secondList);
+            return;
+        }
+        while(lastNodePtr->next != nullptr){
+            lastNodePtr = lastNodePtr->next;
+        }
+        lastNodePtr->next = secondList.release();
+    }
+
+
+    /*
+    Devides list in groups of size k and reverses each group. Nodes at the end of the list that do not fill a whole group are not reversed
+    Returns a pointer to the head of the modified list
+    */
+    template<typename ValueType>
+    List<ValueType> reverse_groups(List<ValueType>& list, const unsigned int k){
+        if( k<=1 ) return std::move(list);
+
+        auto head = list.get();
+        auto currentGroupTail = advance(head, k-1);
+        if(currentGroupTail == nullptr) return std::move(list); //k is greater than size of list
+
+        // auto previousGroupTail = reverseNodes(head, currentGroupTail);
+        auto nextGroupHead = split_after(currentGroupTail);
+
+        //reverse group
+        // ptrToGroupTail = ptrToGroupHead;
+        currentGroupTail = reverse_list(list);
+
+        //insert group
+        merge_lists(list, nextGroupHead);
+        auto previousGroupTail = currentGroupTail;
+        currentGroupTail = advance(currentGroupTail, k);
+
+        while(currentGroupTail != nullptr){
+            nextGroupHead = split_after(currentGroupTail);
+            auto currentGroupList = split_after(previousGroupTail);
+            currentGroupTail = reverse_list(currentGroupList);
+            merge_lists(currentGroupList, nextGroupHead);
+            merge_lists(list, currentGroupList);
+            // previousGroupTail = reverseNodes(previousGroupTail->next, currentGroupTail);
+            previousGroupTail = currentGroupTail;
+            currentGroupTail = advance(currentGroupTail, k);
+        }
+
+        return std::move(list);
     }
 }
 
