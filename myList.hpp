@@ -172,24 +172,25 @@ namespace myList{
         auto currentGroupTail = advance(list.get(), k-1);
         if(currentGroupTail == nullptr) return; //k is greater than size of list
 
+        auto currentGroupList = std::move(list);
         auto nextList = split_after(currentGroupTail);
-        currentGroupTail = reverse_list(list);
-        merge_lists_hint(list, currentGroupTail, nextList);
+        currentGroupTail = reverse_list(currentGroupList);
+
+        merge_lists(list, currentGroupList);
         auto previousListTail = currentGroupTail;
-        currentGroupTail = advance(currentGroupTail, k);
+        currentGroupTail = advance(nextList.get(), k-1);
+        std::swap(currentGroupList, nextList);
 
         while(currentGroupTail != nullptr){
             nextList = split_after(currentGroupTail);
-            auto currentGroupList = split_after(previousListTail);
-
             currentGroupTail = reverse_list(currentGroupList);
 
-            merge_lists_hint(currentGroupList, currentGroupTail, nextList);
-            merge_lists_hint(list,             previousListTail, currentGroupList);
-
+            merge_lists_hint(list, previousListTail, currentGroupList);
             previousListTail = currentGroupTail;
-            currentGroupTail = advance(currentGroupTail, k);
+            currentGroupTail = advance(nextList.get(), k-1);
+            std::swap(currentGroupList, nextList);
         }
+        merge_lists_hint(list, previousListTail, currentGroupList);
     }
 }
 
