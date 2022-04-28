@@ -32,8 +32,7 @@ namespace myList{
 
     /*
     Creates a list with one element
-    Returns a pointer to a Node containing the passed in value
-    A list created with make_list has to be destroyed with delete_list to not leak memory
+    Returns the list with one Node containing the passed in value
     */
     template<typename ValueType>
     List<ValueType> make_list(ValueType&& value){
@@ -45,7 +44,7 @@ namespace myList{
 
     /*
     Creates a list consisting of the elements passed in
-    Returns a pointer to the head of the list
+    Returns the list
     */
     template<typename ValueType, typename... ValueTypes>
     List<ValueType> make_list(ValueType&& value, ValueTypes&&... values){
@@ -54,7 +53,9 @@ namespace myList{
         return head;
     }
 
-
+    /*
+    Prints the content of the list
+    */
     template<typename ValueType>
     void print(const List<ValueType>& head){
         auto currentNodePtr = head.get();
@@ -66,7 +67,7 @@ namespace myList{
     }
 
     /*
-    Receives a pointer to a list nodePtr and a positive integer n and
+    Receives a pointer nodePtr to a list and a positive integer n and
     returns the pointer to the nth next element in the list
     returns nullptr if list contains less than n+1 elements
     */
@@ -107,7 +108,7 @@ namespace myList{
 
     /*
     Removes the nodes following nodePtr from the list
-    Return pointer to the node that followed nodePtr
+    Returns a list beginning with the node that followed nodePtr
     */
     template<typename ValueType>
     List<ValueType> split_after(Node<ValueType>* nodePtr){
@@ -127,6 +128,7 @@ namespace myList{
 
     /*
     Merges two lists
+    The second list will be empty afterwards
     */
     template<typename ValueType>
     void merge_lists(List<ValueType>& firstList, List<ValueType>& secondList){
