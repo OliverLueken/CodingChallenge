@@ -81,12 +81,13 @@ namespace myList{
 
     /*
     Reverses the elements inside the list
-    Returns a pointer to the head of the reversed list
-    The passed in head pointer stays valid and points to the last element in the list
+    Returns a pointer to the last element of the reversed list
+    Iterators to elements of the list stay valid
     */
     template<typename ValueType>
-    List<ValueType> reverse_list(List<ValueType>& head){
-        auto lastNodePtr = head.release();
+    Node<ValueType>* reverse_list(List<ValueType>& list){
+        auto lastNodePtr = list.release();
+        const auto lastElementPtr = lastNodePtr;
         auto currentNodePtr = lastNodePtr->next;
 
         lastNodePtr->next = nullptr;
@@ -97,7 +98,11 @@ namespace myList{
             lastNodePtr = currentNodePtr;
             currentNodePtr = nextNodePtr;
         }
-        return List<ValueType>{lastNodePtr, &delete_list<ValueType>};
+        list = List<ValueType>{
+            lastNodePtr,
+            &delete_list
+        };
+        return lastElementPtr;
     }
 
     //
