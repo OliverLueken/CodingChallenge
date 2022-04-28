@@ -154,11 +154,9 @@ namespace myList{
         auto currentGroupTail = advance(head, k-1);
         if(currentGroupTail == nullptr) return std::move(list); //k is greater than size of list
 
-        // auto previousGroupTail = reverseNodes(head, currentGroupTail);
         auto nextGroupHead = split_after(currentGroupTail);
 
         //reverse group
-        // ptrToGroupTail = ptrToGroupHead;
         currentGroupTail = reverse_list(list);
 
         //insert group
@@ -172,7 +170,6 @@ namespace myList{
             currentGroupTail = reverse_list(currentGroupList);
             merge_lists(currentGroupList, nextGroupHead);
             merge_lists(list, currentGroupList);
-            // previousGroupTail = reverseNodes(previousGroupTail->next, currentGroupTail);
             previousGroupTail = currentGroupTail;
             currentGroupTail = advance(currentGroupTail, k);
         }
