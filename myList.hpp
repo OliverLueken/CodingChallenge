@@ -144,6 +144,22 @@ namespace myList{
         lastNodePtr->next = secondList.release();
     }
 
+    /*
+    Merges two lists with the hint as a suggestion where to append the second list
+    The second list will be empty afterwards
+    */
+    template<typename ValueType>
+    void merge_lists_hint(List<ValueType>& firstList, Node<ValueType>* hint, List<ValueType>& secondList){
+        auto lastNodePtr = hint;
+        if( lastNodePtr == nullptr ){
+            merge_lists(firstList, secondList);
+            return;
+        }
+        while(lastNodePtr->next != nullptr){
+            lastNodePtr = lastNodePtr->next;
+        }
+        lastNodePtr->next = secondList.release();
+    }
 
     /*
     Modifies a list such that each group of size k nodes are reversed.
