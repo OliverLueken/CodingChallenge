@@ -174,7 +174,7 @@ namespace myList{
 
         auto nextList = split_after(currentGroupTail);
         currentGroupTail = reverse_list(list);
-        merge_lists(list, nextList);
+        merge_lists_hint(list, currentGroupTail, nextList);
         auto previousListTail = currentGroupTail;
         currentGroupTail = advance(currentGroupTail, k);
 
@@ -184,8 +184,8 @@ namespace myList{
 
             currentGroupTail = reverse_list(currentGroupList);
 
-            merge_lists(currentGroupList, nextList);
-            merge_lists(list, currentGroupList);
+            merge_lists_hint(currentGroupList, currentGroupTail, nextList);
+            merge_lists_hint(list,             previousListTail, currentGroupList);
 
             previousListTail = currentGroupTail;
             currentGroupTail = advance(currentGroupTail, k);
