@@ -87,11 +87,11 @@ TEST_CASE("reverse list"){
         auto list = myList::make_list(1);
         auto head = list.get();
 
-        auto reversedList = myList::reverse_list(list);
-        auto newHead = reversedList.get();
-
+        auto lastElementPtr = myList::reverse_list(list);
+        auto newHead = list.get();
 
         REQUIRE(newHead == head );
+        REQUIRE(newHead == lastElementPtr );
 
         REQUIRE(newHead->value == 1 );
         REQUIRE(newHead->next  == nullptr );
@@ -101,38 +101,37 @@ TEST_CASE("reverse list"){
         auto list = myList::make_list(1, 2);
         auto head = list.get();
 
-        auto reversedList = myList::reverse_list(list);
-        auto newHead = reversedList.get();
+        auto lastElementPtr = myList::reverse_list(list);
+        REQUIRE(head == lastElementPtr);
 
-        REQUIRE(head->value == 1 );
-        REQUIRE(head->next  == nullptr );
-
-        auto currentNodePtr = newHead;
+        auto currentNodePtr = list.get();
         REQUIRE(currentNodePtr->value == 2 );
         REQUIRE(currentNodePtr->next  != nullptr );
 
         currentNodePtr = currentNodePtr->next;
         REQUIRE(currentNodePtr->value == 1 );
         REQUIRE(currentNodePtr->next  == nullptr );
+
+        REQUIRE(currentNodePtr == lastElementPtr);
     }
 
     SECTION("Reverse list with a lot of elements"){
         auto list = myList::make_list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
         auto head = list.get();
 
-        auto reversedList = myList::reverse_list(list);
-        auto newHead = reversedList.get();
+        auto lastElementPtr = myList::reverse_list(list);
+        REQUIRE(head == lastElementPtr);
 
-        REQUIRE(head->value == 1 );
-        REQUIRE(head->next  == nullptr );
-
-        auto currentNodePtr = newHead;
+        auto currentNodePtr = list.get();
         int expectedValue = 16;
-        while(currentNodePtr != nullptr){
+        while(currentNodePtr->next != nullptr){
             REQUIRE(currentNodePtr->value == expectedValue);
             currentNodePtr = currentNodePtr->next;
             --expectedValue;
         }
+        REQUIRE(currentNodePtr->value == expectedValue);
+
+        REQUIRE(currentNodePtr == lastElementPtr);
     }
 }
 //
