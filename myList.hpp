@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <memory>
 
 namespace myList{
     template<typename ValueType>
