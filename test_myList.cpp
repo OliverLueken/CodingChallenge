@@ -216,3 +216,36 @@ TEST_CASE("reverse list"){
 //         REQUIRE( test_reverse_group(k, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16) );
 //     }
 // }
+TEST_CASE("split_after"){
+    SECTION("Split after k-th element"){
+        auto k = GENERATE(range(1,10));
+        auto list = myList::make_list(1,2,3,4,5,6,7,8,9,10);
+        INFO("Splitting after the " << k << "-th element.");
+        auto listIt = myList::advance(list.get(), k-1);
+        auto nextList = myList::split_after(listIt);
+
+        auto testValues = [](auto listIt, auto expectedValue, auto maxElementValue){
+            while(expectedValue < maxElementValue){
+                CHECK(listIt->value == expectedValue);
+                REQUIRE(listIt->next != nullptr);
+                listIt = myList::advance(listIt, 1);
+                ++expectedValue;
+            }
+            CHECK(listIt->value == expectedValue);
+            REQUIRE(listIt->next == nullptr);
+        };
+
+        testValues(    list.get(), 1  , k );
+        testValues(nextList.get(), k+1, 10);
+    }
+
+    SECTION("Split after last element"){
+        auto list = myList::make_list(1,2,3);
+        auto listIt = myList::advance(list.get(), 2);
+        auto newList = myList::split_after(listIt);
+
+        REQUIRE( newList.get() == nullptr );
+        CHECK( listIt->value == 3 );
+        REQUIRE( listIt->next == nullptr );
+    }
+}
