@@ -145,16 +145,16 @@ namespace myList{
 
 
     /*
-    Devides list in groups of size k and reverses each group. Nodes at the end of the list that do not fill a whole group are not reversed
-    Returns a pointer to the head of the modified list
+    Modifies a list such that each group of size k nodes are reversed.
+    Nodes at the end of the list that do not fill a whole group of size k are not reversed.
     */
     template<typename ValueType>
-    List<ValueType> reverse_groups(List<ValueType>& list, const unsigned int k){
-        if( k<=1 ) return std::move(list);
+    void reverse_groups(List<ValueType>& list, const unsigned int k){
+        if( k<=1 ) return;
 
         auto head = list.get();
         auto currentGroupTail = advance(head, k-1);
-        if(currentGroupTail == nullptr) return std::move(list); //k is greater than size of list
+        if(currentGroupTail == nullptr) return; //k is greater than size of list
 
         auto nextGroupHead = split_after(currentGroupTail);
 
@@ -175,8 +175,6 @@ namespace myList{
             previousGroupTail = currentGroupTail;
             currentGroupTail = advance(currentGroupTail, k);
         }
-
-        return std::move(list);
     }
 }
 

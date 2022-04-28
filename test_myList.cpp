@@ -215,13 +215,13 @@ auto test_reverse_group(unsigned int k, ListValues&&... values){
     std::cout << "Before: ";
     myList::print(list);
 
-    auto reversedList = myList::reverse_groups(list, k);
+    myList::reverse_groups(list, k);
     std::cout << "After:  ";
-    myList::print(reversedList);
+    myList::print(list);
     std::cout << '\n';
 
     const auto size = sizeof...(ListValues);
-    const auto reverse_group_successful = valuesAreReversedAsExpected(reversedList, size, k);
+    const auto reverse_group_successful = valuesAreReversedAsExpected(list, size, k);
 
     return reverse_group_successful;
 }
