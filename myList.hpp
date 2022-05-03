@@ -173,16 +173,10 @@ namespace myList{
         if(currentGroupTail == nullptr) return; //k is greater than size of list
 
         auto currentGroupList = std::move(list);
-        auto nextList = split_after(currentGroupTail);
-        currentGroupTail = reverse_list(currentGroupList);
-
-        merge_lists(list, currentGroupList);
-        auto previousListTail = currentGroupTail;
-        currentGroupTail = advance(nextList.get(), k-1);
-        std::swap(currentGroupList, nextList);
+        auto previousListTail = list.get();
 
         while(currentGroupTail != nullptr){
-            nextList = split_after(currentGroupTail);
+            auto nextList    = split_after(currentGroupTail);
             currentGroupTail = reverse_list(currentGroupList);
 
             merge_lists_hint(list, previousListTail, currentGroupList);
