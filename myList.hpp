@@ -150,11 +150,11 @@ namespace myList{
     */
     template<typename ValueType>
     void merge_lists_hint(List<ValueType>& firstList, Node<ValueType>* hint, List<ValueType>& secondList){
-        auto lastNodePtr = hint;
-        if( lastNodePtr == nullptr ){
+        if( hint == nullptr ){
             merge_lists(firstList, secondList);
             return;
         }
+        auto lastNodePtr = hint;
         while(lastNodePtr->next != nullptr){
             lastNodePtr = lastNodePtr->next;
         }
